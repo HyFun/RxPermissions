@@ -1,11 +1,13 @@
 package com.tbruyelle.rxpermissions2.sample;
 
+import android.Manifest;
 import android.Manifest.permission;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.SurfaceView;
+import android.view.View;
 import android.widget.Toast;
 
 import com.jakewharton.rxbinding2.view.RxView;
@@ -29,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        RxPermissions rxPermissions = new RxPermissions(this);
+        final RxPermissions rxPermissions = new RxPermissions(this);
         rxPermissions.setLogging(true);
 
         setContentView(R.layout.act_main);
@@ -77,6 +79,25 @@ public class MainActivity extends AppCompatActivity {
                                 Log.i(TAG, "OnComplete");
                             }
                         });
+
+
+        findViewById(R.id.multiple).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new RxPermissions(MainActivity.this).request(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.RECORD_AUDIO
+                )
+                        .subscribe(new Consumer<Boolean>() {
+                            @Override
+                            public void accept(Boolean aBoolean) throws Exception {
+                                Log.e(TAG, "授权是否成功>>>>" + aBoolean);
+                            }
+                        });
+            }
+        });
     }
 
     @Override
