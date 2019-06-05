@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
-apply from: 'jitpack.gradle'
+apply plugin: 'com.github.dcendents.android-maven'
+group = 'com.github.HyFun'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
